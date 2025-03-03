@@ -1,4 +1,4 @@
 package com.example.fileapi.dto;
 
-public record SignedUrlRequest(String objectName) {
+public record SignedUrlRequest(String filePath) {
 }

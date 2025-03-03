@@ -14,9 +14,13 @@ public class FileController {
 
     private final SignedUrlService signedUrlService;
 
-    @PostMapping("/generate-signed-url")
-    public ResponseEntity<?> getSignedUrl(@RequestBody SignedUrlRequest signedUrlRequest) {
-        return ResponseEntity.ok(signedUrlService.generateSignedUrl( signedUrlRequest));
+    @PostMapping("/signed-url/upload")
+    public ResponseEntity<?> generateUpLoadSignedUrl(@RequestBody SignedUrlRequest signedUrlRequest) {
+        return ResponseEntity.ok(signedUrlService.generateUploadSignedUrl( signedUrlRequest));
+    }
+    @PostMapping("/signed-url/download")
+    public ResponseEntity<?> generateDownLoadSignedUrl(@RequestBody SignedUrlRequest signedUrlRequest) {
+        return ResponseEntity.ok(signedUrlService.generateDownloadSignedUrl( signedUrlRequest));
     }
 
 }
