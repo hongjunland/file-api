@@ -1,4 +1,4 @@
-package com.example.fileapi.config;
+package com.example.fileapi.file.config;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.Storage;

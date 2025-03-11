@@ -1,4 +1,4 @@
-package com.example.fileapi.config;
+package com.example.fileapi.file.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
