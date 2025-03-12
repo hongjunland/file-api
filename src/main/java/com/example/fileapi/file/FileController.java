@@ -1,7 +1,9 @@
 package com.example.fileapi.file;
 
+import com.example.fileapi.file.dto.FileUploadStatusUpdateRequest;
 import com.example.fileapi.file.dto.SignedUrlRequest;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,16 @@ public class FileController {
     @PostMapping("/signed-url/download")
     public ResponseEntity<?> generateDownLoadSignedUrl(@RequestBody SignedUrlRequest signedUrlRequest) {
         return ResponseEntity.ok(signedUrlService.generateDownloadSignedUrl( signedUrlRequest));
+    }
+
+    @PutMapping("/upload-status")
+    public ResponseEntity<?> updateFileUploadStatus(@RequestBody FileUploadStatusUpdateRequest fileUploadStatusUpdateRequest){
+        signedUrlService.updateFileUploadStatus(fileUploadStatusUpdateRequest);
+        return ResponseEntity.ok(null);
+    }
+    @GetMapping("/{fileId}")
+    public ResponseEntity<?> getFile(@PathVariable Long fileId) {
+       return ResponseEntity.ok(signedUrlService.findFileById(fileId));
     }
 
 }

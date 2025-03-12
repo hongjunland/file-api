@@ -1,6 +1,8 @@
 package com.example.fileapi.file;
 
 import com.example.fileapi.file.config.GcpProperties;
+import com.example.fileapi.file.dto.FileResponse;
+import com.example.fileapi.file.dto.FileUploadStatusUpdateRequest;
 import com.example.fileapi.file.dto.SignedUrlRequest;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.HttpMethod;
@@ -44,6 +46,8 @@ public class SignedUrlService {
                     .originalFilename(signedUrlRequest.filename())
                     .storedFilename(storedFilename)
                     .fileUrl(String.format("https://storage.googleapis.com/%s/%s", gcpProperties.getBucket(), storedFilename))
+                    .fileType(signedUrlRequest.fileType())
+                    .fileUploadStatus(FileUploadStatus.PENDING)
                     .build());
             return signedUrl.toString();
         } catch (Exception e) {
@@ -78,4 +82,22 @@ public class SignedUrlService {
         return (UUID.randomUUID() + "_" + originalFilename);
     }
 
+    @Transactional
+    public void updateFileUploadStatus(FileUploadStatusUpdateRequest fileUploadStatusUpdateRequest) {
+        FileJpaEntity fileJpaEntity = fileJpaRepository.findById(fileUploadStatusUpdateRequest.fileId())
+                .orElseThrow(() -> new RuntimeException("파일을 찾을 수 없습니다."));
+        fileJpaEntity.updateFileUploadStatus(fileUploadStatusUpdateRequest.status());
+        fileJpaRepository.save(fileJpaEntity);
+    }
+
+    @Transactional(readOnly = true)
+    public FileResponse findFileById(Long fileId) {
+        FileJpaEntity fileJpaEntity = fileJpaRepository.findById(fileId)
+                .orElseThrow(() -> new RuntimeException("파일을 찾을 수 없습니다."));
+        return FileResponse.builder()
+                .fileId(fileJpaEntity.getFileId())
+                .fileName(fileJpaEntity.getOriginalFilename())
+                .fileUrl(fileJpaEntity.getFileUrl())
+                .build();
+    }
 }
