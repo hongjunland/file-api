@@ -1,13 +1,11 @@
 package com.example.fileapi.file;
 
+import com.example.fileapi.file.enums.FileUploadStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 @Table(name = "files")
 @Entity
@@ -25,7 +23,8 @@ public class FileJpaEntity {
     private String storedFilename;   // UUID 기반 파일명
     private String fileUrl;          // GCS URL
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private FileUploadStatus fileUploadStatus; // 업로드 상태 (PENDING, SUCCESS, FAILED)
 
     public void updateFileUploadStatus(FileUploadStatus status){

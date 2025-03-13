@@ -4,6 +4,7 @@ import com.example.fileapi.file.config.GcpProperties;
 import com.example.fileapi.file.dto.FileResponse;
 import com.example.fileapi.file.dto.FileUploadStatusUpdateRequest;
 import com.example.fileapi.file.dto.SignedUrlRequest;
+import com.example.fileapi.file.enums.FileUploadStatus;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.HttpMethod;
 import com.google.cloud.storage.Storage;
@@ -98,6 +99,8 @@ public class SignedUrlService {
                 .fileId(fileJpaEntity.getFileId())
                 .fileName(fileJpaEntity.getOriginalFilename())
                 .fileUrl(fileJpaEntity.getFileUrl())
+                .fileType(fileJpaEntity.getFileType())
+                .status(fileJpaEntity.getFileUploadStatus())
                 .build();
     }
 }
